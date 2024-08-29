@@ -1,27 +1,33 @@
-apiVersion: argoproj.io/v1alpha1
-kind: CronWorkflow
+apiVersion: batch/v1
+kind: CronJob
 metadata:
-  name: hello-world
-spec:
-  destination:
-    name: ""
-    namespace: airflow
-    server: https://kubernetes.default.svc
-  source:
-    path: /
-    repoURL: https://github.com/rosecape/rosecape-audits.git
-    targetRevision: HEAD
-  sources: []
-  project: default
+  name: airflow-script-cronjob
+  namespace: airflow
+  labels:
+    app: airflow-script
+spec: 
   schedule: "*/2 * * * *"
-  timezone: America/Los_Angeles
-  startingDeadlineSeconds: 0
-  concurrencyPolicy: Replace
-  successfulJobsHistoryLimit: 4
-  failedJobsHistoryLimit: 4
-  suspend: false
-  workflowSpec:
-    templates:
-      - name: hello-world-with-time
-        container:
-          image: busyboxghcr.io/rosecape/airflow-audit:latest
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: airflow-script-container
+            image: ghcr.io/rosecape/airflow-audit:latest
+            env:
+            - name: AIRFLOW_API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-api-creds
+                  key: username
+            - name: AIRFLOW_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-api-creds
+                  key: password
+            - name: SLACK_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: slack-webhook-creds
+                  key: url
+          restartPolicy: OnFailure
