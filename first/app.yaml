@@ -4,7 +4,7 @@ metadata:
   name: airflow-script-cronjob
   namespace: airflow
   labels:
-    app: airflow-script
+    app: airflow-script-cronjob
 spec: 
   schedule: "*/2 * * * *"
   jobTemplate:
