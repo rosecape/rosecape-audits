@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: hello-world
+spec:
+  destination:
+    name: ""
+    namespace: airflow
+    server: https://kubernetes.default.svc
+  source:
+    path: /
+    repoURL: https://github.com/rosecape/rosecape-audits.git
+    targetRevision: HEAD
+  sources: []
+  project: default
+  schedule: "*/2 * * * *"
+  timezone: America/Los_Angeles
+  startingDeadlineSeconds: 0
+  concurrencyPolicy: Replace
+  successfulJobsHistoryLimit: 4
+  failedJobsHistoryLimit: 4
+  suspend: false
+  workflowSpec:
+    templates:
+      - name: hello-world-with-time
+        container:
+          image: busyboxghcr.io/rosecape/airflow-audit:latest
