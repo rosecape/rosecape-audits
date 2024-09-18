@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: airflow-script-cronjob
+  name: airflow-audit-cronjob
   namespace: airflow
   labels:
-    app: airflow-script-cronjob
+    app: airflow-audit-cronjob
 spec: 
-  schedule: "*/2 * * * *"
+  schedule: "0 8 * * *" # Run every day at 8am UTC (4am EST)
   jobTemplate:
     spec:
       template:
