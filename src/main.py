@@ -7,8 +7,8 @@ from croniter import croniter
 # Airflow API settings
 SLACK_WEBHOOK_URL = os.environ.get('SLACK_WEBHOOK_URL', None)
 AIRFLOW_API_URL = os.environ.get('AIRFLOW_API_URL', 'http://airflow-webserver.airflow.svc.cluster.local:8080/api/v1')
-AIRFLOW_USERNAME = os.environ.get('AIRFLOW_USERNAME', 'admin')
-AIRFLOW_PASSWORD = os.environ.get('AIRFLOW_PASSWORD', 'admin')
+AIRFLOW_USERNAME = os.environ.get('AIRFLOW_API_USERNAME', 'admin')
+AIRFLOW_PASSWORD = os.environ.get('AIRFLOW_API_PASSWORD', 'admin')
 
 # Buffer time for checking runs
 BUFFER_TIME = timedelta(hours=1)
