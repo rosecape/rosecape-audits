@@ -5,8 +5,8 @@ metadata:
   namespace: airflow
   labels:
     app: airflow-audit-cronjob
-spec: 
-  schedule: "0 8 * * *" # Run every day at 8am UTC (4am EST)
+spec:
+  schedule: "0 8-21/4 * * *"
   jobTemplate:
     spec:
       template:
